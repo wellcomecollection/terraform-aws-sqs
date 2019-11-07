@@ -275,7 +275,7 @@ def autoformat():
             "%s:/repo" % os.path.abspath(os.curdir),
             "--workdir",
             "/repo",
-            "hashicorp/terraform",
+            "hashicorp/terraform:light",
             "fmt",
         ]
     )
@@ -321,6 +321,8 @@ def autoformat():
         git("add", "--verbose", "--all")
         git("commit", "-m", "Apply auto-formatting rules")
         git("push", "ssh-origin", "HEAD:%s" % branch)
+
+        sys.exit(1)
     else:
         print("*** There were no changes from auto-formatting", flush=True)
 
