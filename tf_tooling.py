@@ -243,7 +243,7 @@ def update_for_pending_release():
     git("rm", RELEASE_FILE)
     git("add", CHANGELOG_FILE)
 
-    git("commit", "-m", "Bump version to %s and update changelog" % (__version__,))
+    git("commit", "-m", "Bump version to %s and update changelog\n\n[skip ci]" % (__version__,))
 
 
 def changed_files(*args):
