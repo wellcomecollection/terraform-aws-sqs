@@ -112,7 +112,7 @@ def create_tag_and_push():
     assert __version__ not in tags()
     git("config", "user.name", "Travis CI on behalf of Wellcome")
     git("config", "user.email", "wellcomedigitalplatform@wellcome.ac.uk")
-    git("config", "core.sshCommand", "ssh -i deploy_key")
+    git("config", "core.sshCommand", "ssh -i id_rsa")
     git(
         "remote", "add", "ssh-origin", REPO_URL,
     )
@@ -291,7 +291,7 @@ def autoformat():
 
         git("config", "user.name", "Travis CI on behalf of Wellcome")
         git("config", "user.email", "wellcomedigitalplatform@wellcome.ac.uk")
-        git("config", "core.sshCommand", "ssh -i deploy_key")
+        git("config", "core.sshCommand", "ssh -i id_rsa")
 
         git("remote", "add", "ssh-origin", REPO_URL)
 
@@ -305,13 +305,13 @@ def autoformat():
                 "-iv",
                 os.environ["encrypted_83630750896a_iv"],
                 "-in",
-                "deploy_key.enc",
+                "id_rsa.enc",
                 "-out",
-                "deploy_key",
+                "id_rsa",
                 "-d",
             ]
         )
-        subprocess.check_call(["chmod", "400", "deploy_key"])
+        subprocess.check_call(["chmod", "400", "id_rsa"])
 
         # We checkout the branch before we add the commit, so we don't
         # include the merge commit that Travis makes.
