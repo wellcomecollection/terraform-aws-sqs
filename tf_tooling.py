@@ -30,6 +30,10 @@ from datetime import datetime, timedelta
 REPO_URL = os.environ["REPO_URL"]
 
 
+def git(*args):
+    return subprocess.check_output(("git",) + args).decode("utf8").strip()
+
+
 def current_branch():
     return (
         subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"])
@@ -106,10 +110,6 @@ def has_source_changes(version=None):
 
     tf_files = [f for f in modified_files() if f.strip().endswith(".tf")]
     return len(tf_files) != 0
-
-
-def git(*args):
-    return subprocess.check_output(("git",) + args).decode("utf8").strip()
 
 
 def create_tag_and_push():
