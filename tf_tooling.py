@@ -71,6 +71,10 @@ def latest_version():
     return latest
 
 
+__version__ = latest_version()
+__version_info__ = [int(i) for i in __version__.lstrip("v").split(".")]
+
+
 ROOT = (
     subprocess.check_output(["git", "rev-parse", "--show-toplevel"])
     .decode("ascii")
