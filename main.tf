@@ -11,7 +11,7 @@ resource "aws_sqs_queue" "q" {
   redrive_policy = templatefile(
     "${path.module}/redrive_policy.json.tpl",
     {
-      dlq_arn = aws_sqs_queue.dlq.arn,
+      dlq_arn           = aws_sqs_queue.dlq.arn,
       max_receive_count = var.max_receive_count
     }
   )
