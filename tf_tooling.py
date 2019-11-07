@@ -228,6 +228,9 @@ def update_changelog_and_version():
         rest,
     ]
 
+    __version__ = new_version_string
+    __version_info__ = [int(i) for i in __version__.lstrip("v").split(".")]
+
     with open(CHANGELOG_FILE, "w") as o:
         o.write("\n".join(new_changelog_parts))
 
