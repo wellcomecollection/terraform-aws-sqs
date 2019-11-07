@@ -36,50 +36,29 @@ def current_branch():
 
 
 def tags():
-    result = [
-        t.decode("ascii") for t in subprocess.check_output(["git", "tag"]).split(b"\n")
-    ]
-    assert len(set(result)) == len(result)
+    """
+    Returns a list of all tags in the repo.
+    """
+    git("fetch", "--tags")
+    all_tags = git("tag").splitlines()
 
-    return set(result)
+    assert len(set(all_tags)) == len(all_tags)
 
-
-ROOT = (
-    subprocess.check_output(["git", "rev-parse", "--show-toplevel"])
-    .decode("ascii")
-    .strip()
-)
-
-
-__version__ = None
-__version_info__ = None
-
-VERSION_FILE = os.path.join(ROOT, "version.txt")
-
-__version__ = open(VERSION_FILE).read().strip()
-__version_info__ = [int(i) for i in __version__.lstrip("v").split(".")]
-
-assert __version__ is not None
-assert __version_info__ is not None
+    return set(all_tags)
 
 
 def latest_version():
+    """
+    Returns the latest version, as specified by the Git tags.
+    """
     versions = []
 
     for t in tags():
-        # All versions get tags but not all tags are versions (and there are
-        # a large number of historic tags with a different format for versions)
-        # so we parse each tag as a triple of ints (MAJOR, MINOR, PATCH)
-        # and skip any tag that doesn't match that.
         assert t == t.strip()
         parts = t.split(".")
-        if len(parts) != 3:
-            continue
+        assert len(parts) == 3, t
         parts[0] = parts[0].lstrip("v")
-        try:
-            v = tuple(map(int, parts))
-        except ValueError:
-            continue
+        v = tuple(map(int, parts))
 
         versions.append((v, t))
 
@@ -87,6 +66,13 @@ def latest_version():
 
     assert latest in tags()
     return latest
+
+
+ROOT = (
+    subprocess.check_output(["git", "rev-parse", "--show-toplevel"])
+    .decode("ascii")
+    .strip()
+)
 
 
 def hash_for_name(name):
@@ -222,10 +208,6 @@ def update_changelog_and_version():
     new_version = tuple(new_version)
     new_version_string = "v" + ".".join(map(str, new_version))
 
-    __version__ = new_version_string
-
-    open(VERSION_FILE, "w").write(new_version_string)
-
     now = datetime.utcnow()
 
     date = max([d.strftime("%Y-%m-%d") for d in (now, now + timedelta(hours=1))])
@@ -252,7 +234,7 @@ def update_for_pending_release():
     update_changelog_and_version()
 
     git("rm", RELEASE_FILE)
-    git("add", CHANGELOG_FILE, VERSION_FILE)
+    git("add", CHANGELOG_FILE)
 
     git("commit", "-m", "Bump version to %s and update changelog" % (__version__,))
 
