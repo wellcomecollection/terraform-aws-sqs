@@ -11,14 +11,12 @@ branches:
   only:
     - "master"
 
-env:
-  - "REPO_URL=git@github.com:wellcomecollection/terraform-aws-sqs.git"
-
 jobs:
   include:
     - env: "TASK=autoformat"
-    - env: "TASK=check_release_file"
+      env: "REPO_URL=git@github.com:wellcomecollection/terraform-aws-sqs.git"
     - env: "TASK=release"
+      env: "REPO_URL=git@github.com:wellcomecollection/terraform-aws-sqs.git"
       stage: "release"
 
 script:

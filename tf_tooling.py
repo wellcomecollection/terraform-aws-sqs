@@ -111,10 +111,7 @@ def create_tag_and_push():
     git("config", "user.email", "wellcomedigitalplatform@wellcome.ac.uk")
     git("config", "core.sshCommand", "ssh -i deploy_key")
     git(
-        "remote",
-        "add",
-        "ssh-origin",
-        "git@github.com:wellcometrust/terraform-modules.git",
+        "remote", "add", "ssh-origin", REPO_URL,
     )
     git("tag", __version__)
 
@@ -353,7 +350,7 @@ def release():
 
     if has_release:
         print("Updating changelog and version")
-        tools.update_for_pending_release()
+        update_for_pending_release()
 
     if not on_master:
         print("Not deploying due to not being on master")
@@ -399,9 +396,8 @@ if __name__ == "__main__":
         sys.exit("Usage: %s <COMMAND>" % __file__)
 
     if command == "autoformat":
-        autoformat()
-    elif command == "check_release_file":
         check_release_file()
+        autoformat()
     elif command == "release":
         release()
     else:
