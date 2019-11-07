@@ -27,6 +27,9 @@ import subprocess
 from datetime import datetime, timedelta
 
 
+REPO_URL = os.environ["REPO_URL"]
+
+
 def current_branch():
     return (
         subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"])

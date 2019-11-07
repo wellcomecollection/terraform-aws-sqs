@@ -11,9 +11,10 @@ branches:
   only:
     - "master"
 
+env:
+  - "REPO_URL=git@github.com:wellcomecollection/terraform-aws-sqs.git"
+
 jobs:
-  global:
-    - env: "REPO_URL=git@github.com:wellcomecollection/terraform-aws-sqs.git"
   include:
     - env: "TASK=autoformat"
     - env: "TASK=release"
