@@ -1,5 +1,7 @@
 # terraform-aws-sqs
 
+[![Build Status](https://travis-ci.org/wellcomecollection/terraform-aws-sqs.svg?branch=master)](https://travis-ci.org/wellcomecollection/terraform-aws-sqs)
+
 This module allows you to create an SQS queue with all the trimmings.
 
 That includes:
