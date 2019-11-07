@@ -342,18 +342,17 @@ def release():
     last_release = latest_version()
 
     print(
-        "Current version: %s. Latest released version: %s" % (__version__, last_release)
+        "Latest version: %s" % last_release
     )
 
-    HEAD = tools.hash_for_name("HEAD")
-    MASTER = tools.hash_for_name("origin/master")
+    HEAD = hash_for_name("HEAD")
+    MASTER = hash_for_name("origin/master")
     print("Current head:", HEAD)
     print("Current master:", MASTER)
 
     on_master = is_ancestor(HEAD, MASTER)
-    has_release = has_release()
 
-    if has_release:
+    if has_release():
         print("Updating changelog and version")
         update_for_pending_release()
 
