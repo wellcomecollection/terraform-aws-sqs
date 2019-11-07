@@ -102,7 +102,7 @@ def has_source_changes(version=None):
 
 
 def git(*args):
-    subprocess.check_call(("git",) + args)
+    return subprocess.check_output(("git",) + args).decode("utf8").strip()
 
 
 def create_tag_and_push():
@@ -272,7 +272,7 @@ def autoformat():
             "--rm",
             "--tty",
             "--volume",
-            "%s:/repo" % os.curdir,
+            "%s:/repo" % os.path.abspath(os.curdir),
             "--workdir",
             "/repo",
             "hashicorp/terraform",
