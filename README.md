@@ -12,6 +12,7 @@ That includes:
 *   An IAM policy that lets you read from the queue
 *   Subscriptions from SNS topics to the queue
 
+You can also use the `autoscaling` module to trigger actions based on the size of the queue.
 
 
 ## Usage
