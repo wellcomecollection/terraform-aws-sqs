@@ -12,7 +12,7 @@ resource "aws_sns_topic" "alarm_topic" {
 }
 
 module "queue" {
-  source = ".."
+  source = "../queue"
 
   # Name of the new queue
   queue_name = "tf_sqs_examples-my_queue"

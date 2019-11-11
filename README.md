@@ -12,6 +12,7 @@ That includes:
 *   An IAM policy that lets you read from the queue
 *   Subscriptions from SNS topics to the queue
 
+You can also use the `autoscaling` module to trigger actions based on the size of the queue.
 
 
 ## Usage
@@ -20,7 +21,7 @@ Here's an example of how to use the module:
 
 ```hcl
 module "queue" {
-  source = "git::github.com/wellcomecollection/terraform-aws-sqs?ref=v1.0.0"
+  source = "git::github.com/wellcomecollection/terraform-aws-sqs//queue?ref=v1.1.0"
 
   # Name of the new queue
   queue_name = "my_first_queue"
