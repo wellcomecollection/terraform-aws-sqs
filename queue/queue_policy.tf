@@ -35,6 +35,8 @@ data "aws_iam_policy_document" "write_to_queue" {
 data "aws_iam_policy_document" "read_from_queue" {
   statement {
     actions = [
+      "sqs:ChangeMessageVisibility",
+      "sqs:ChangeMessageVisibilityBatch",
       "sqs:DeleteMessage",
       "sqs:ReceiveMessage",
     ]
