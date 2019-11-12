@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.1.1 - 2019-11-12
+
+If you're using the `read_policy` output from the queue module, you get the `sqs:ChangeMessageVisibility` IAM permission.
+
+This is useful for non-deterministic failures: an app can receive a message, try to process it, fail, then mark it as ready for other workers to try.
+
 ## v1.1.0 - 2019-11-11
 
 This release adds an `autoscaling` module, which allows you to trigger actions based on the size of a queue.  This is available as
