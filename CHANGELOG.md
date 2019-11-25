@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.1.2 - 2019-11-25
+
+autoscaling module:
+
+*   This release tweaks the type constraints so they don't emit a deprecation
+    warning from Terraform.  There should be no user-visible change.
+
 ## v1.1.1 - 2019-11-12
 
 If you're using the `read_policy` output from the queue module, you get the `sqs:ChangeMessageVisibility` IAM permission.
