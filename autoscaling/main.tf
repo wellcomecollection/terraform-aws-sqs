@@ -33,7 +33,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_low" {
 
   metric_query {
     id          = "e1"
-    expression  = "m1+m2"
+    expression  = "m1+m2+m3"
     label       = "ApproximateNumberOfMessagesTotal"
     return_data = "true"
   }
@@ -58,6 +58,21 @@ resource "aws_cloudwatch_metric_alarm" "queue_low" {
 
     metric {
       metric_name = "ApproximateNumberOfMessagesNotVisible"
+      namespace   = "AWS/SQS"
+      period      = "60"
+      stat        = "Sum"
+
+      dimensions = {
+        QueueName = var.queue_name
+      }
+    }
+  }
+
+  metric_query {
+    id = "m3"
+
+    metric {
+      metric_name = "NumberOfMessagesDeleted"
       namespace   = "AWS/SQS"
       period      = "60"
       stat        = "Sum"
