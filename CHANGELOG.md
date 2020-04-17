@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.1.3 - 2020-04-17
+
+autoscaling module:
+
+*   This release adds NumberOfMessageDeleted to SQS scale down metric.
+
 ## v1.1.2 - 2019-11-25
 
 autoscaling module:
