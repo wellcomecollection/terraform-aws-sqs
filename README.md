@@ -38,6 +38,12 @@ module "queue" {
   # it gets marked as "failed" and sent to the DLQ.
   max_receive_count = 3
 
+  # Make this a FIFO queue
+  fifo_queue = true
+
+  # Enable content-based deduplication for FIFO queues
+  content_based_deduplication = true
+
   # These are required for constructing some of the fiddly IAM bits
   aws_region = "eu-west-1"
 }
