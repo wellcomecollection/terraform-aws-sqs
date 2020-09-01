@@ -45,3 +45,12 @@ variable "alarm_topic_arn" {
   description = "ARN of the topic where to send notification for DLQs not being empty"
 }
 
+variable "fifo_queue" {
+  description = "Boolean designating a FIFO queue"
+  default     = false
+}
+
+variable "content_based_deduplication" {
+  description = "Enables content-based deduplication for FIFO queues"
+  default     = false
+}
