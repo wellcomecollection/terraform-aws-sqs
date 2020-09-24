@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.1.5 - 2020-09-24
+
+Bump for release.
+
 ## v1.1.4 - 2020-09-01
 
 This release adds the possibility to create FIFO queues. 
