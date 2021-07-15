@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.2.0 - 2021-07-15
+
+This removes the `aws_region` variable from the `queue` module, in favour of getting the region directly from the provider.
+This should make it easier to create queues in other regions.
+
 ## v1.1.5 - 2020-09-24
 
 Bump for release.
