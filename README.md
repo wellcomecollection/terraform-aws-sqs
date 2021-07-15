@@ -1,6 +1,6 @@
 # terraform-aws-sqs
 
-[![Build status](https://badge.buildkite.com/195ef4c9dc2d8d747956a9eaa282ceeb01d5bb9c26d13aefba.svg?master)](https://buildkite.com/wellcomecollection/terraform-module-terraform-aws-sqs)
+[![Build status](https://badge.buildkite.com/195ef4c9dc2d8d747956a9eaa282ceeb01d5bb9c26d13aefba.svg?main)](https://buildkite.com/wellcomecollection/terraform-module-terraform-aws-sqs)
 This module allows you to create an SQS queue with all the trimmings.
 
 That includes:
