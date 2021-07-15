@@ -1,5 +1,12 @@
 data "aws_caller_identity" "current" {}
 
+data "aws_region" "current" {}
+
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+  region     = data.aws_region.name
+}
+
 data "aws_iam_policy_document" "write_to_queue" {
   statement {
     sid    = "es-sns-to-sqs-policy"
@@ -20,7 +27,7 @@ data "aws_iam_policy_document" "write_to_queue" {
       #
       # We can't get the ARN from that until it's been created, so this document
       # can't rely on the queue -- that would create a circular reference.
-      "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${var.queue_name}",
+      "arn:aws:sqs:${local.region}:${local.account_id}:${var.queue_name}",
     ]
 
     condition {
