@@ -27,7 +27,7 @@ variable "cooldown_period" {
   default     = "1m"
 
   validation {
-    condition = contains(["1m", "15m"], var.cooldown_period)
+    condition     = contains(["1m", "15m"], var.cooldown_period)
     error_message = "Cooldown period should be either 1 minute or 15 minutes."
   }
 }

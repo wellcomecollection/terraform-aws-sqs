@@ -22,8 +22,8 @@ resource "aws_cloudwatch_metric_alarm" "queue_high" {
 
 locals {
   cooldown_period_map = {
-    "1m":  60,
-    "15m": 60 * 15,
+    "1m" : 60,
+    "15m" : 60 * 15,
   }
 
   queue_low_period = local.cooldown_period_map[var.cooldown_period]
