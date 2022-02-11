@@ -20,6 +20,15 @@ resource "aws_cloudwatch_metric_alarm" "queue_high" {
   insufficient_data_actions = []
 }
 
+locals {
+  cooldown_period_map = {
+    "1m":  60,
+    "15m": 60 * 15,
+  }
+
+  queue_low_period = local.cooldown_period_map[var.cooldown_period]
+}
+
 resource "aws_cloudwatch_metric_alarm" "queue_low" {
   alarm_name          = "${var.queue_name}_low"
   comparison_operator = "LessThanThreshold"
@@ -44,7 +53,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_low" {
     metric {
       metric_name = "ApproximateNumberOfMessagesVisible"
       namespace   = "AWS/SQS"
-      period      = "60"
+      period      = local.queue_low_period
       stat        = "Sum"
 
       dimensions = {
@@ -59,7 +68,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_low" {
     metric {
       metric_name = "ApproximateNumberOfMessagesNotVisible"
       namespace   = "AWS/SQS"
-      period      = "60"
+      period      = local.queue_low_period
       stat        = "Sum"
 
       dimensions = {
@@ -74,7 +83,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_low" {
     metric {
       metric_name = "NumberOfMessagesDeleted"
       namespace   = "AWS/SQS"
-      period      = "60"
+      period      = local.queue_low_period
       stat        = "Sum"
 
       dimensions = {
