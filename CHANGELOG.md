@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.4.0 - 2024-09-06
+
+Make the DLQ alarm optional by allowing a `null` value for the `alarm_topic_arn` variable.
+
 ## v1.3.0 - 2022-02-16
 
 Allow configuring the "cooldown period" variable in the autoscaling module.
