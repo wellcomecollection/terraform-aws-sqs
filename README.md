@@ -8,7 +8,7 @@ That includes:
 
 *   An SQS queue
 *   A dead letter queue (DLQ), which receives any failed messages from the original queue
-*   A CloudWatch alarm that raises when there are messages on the DLQ
+*   An optional CloudWatch alarm that raises when there are messages on the DLQ
 *   An IAM policy that lets you read from the queue
 *   Subscriptions from SNS topics to the queue
 
