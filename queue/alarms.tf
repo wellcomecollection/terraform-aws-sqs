@@ -2,7 +2,7 @@ locals {
   max_age_in_seconds = var.max_age_in_hours * 3600
 
   # Allows for deprecation of alarm_topic_arn in favor of dlq_alarm_topic_arn
-  alarm_topic_arn_safe = var.alarm_topic_arn != null ? [var.alarm_topic_arn] : []
+  alarm_topic_arn_safe  = var.alarm_topic_arn != null ? [var.alarm_topic_arn] : []
   dlq_alarm_action_arns = var.dlq_alarm_action_arns != [] ? var.dlq_alarm_action_arns : local.alarm_topic_arn_safe
 
   # Name suffix allows for EventBridge rules to pick up alarms using wildcard
@@ -25,6 +25,8 @@ resource "aws_cloudwatch_metric_alarm" "dlq_not_empty" {
   threshold           = 0
   statistic           = "Average"
 
+  alarm_description = "Alarm if the DLQ is not empty"
+
   dimensions = {
     QueueName = aws_sqs_queue.dlq.name
   }
@@ -43,6 +45,8 @@ resource "aws_cloudwatch_metric_alarm" "queue_age" {
   period              = 60
   threshold           = local.max_age_in_seconds
   statistic           = "Maximum"
+
+  alarm_description = "Alarm if the age of the oldest message in the queue exceeds ${var.max_age_in_hours} hours"
 
   dimensions = {
     QueueName = aws_sqs_queue.q.name
