@@ -2,16 +2,18 @@ locals {
   max_age_in_seconds = var.max_age_in_hours * 3600
 
   # Allows for deprecation of alarm_topic_arn in favor of dlq_alarm_topic_arn
-  dlq_alarm_topic_arn = var.dlq_alarm_topic_arn != null ? var.dlq_alarm_topic_arn : var.alarm_topic_arn
+  dlq_alarm_action_arns = var.dlq_alarm_action_arns != [] ? var.dlq_alarm_action_arns : [var.alarm_topic_arn]
 
   # Name suffix allows for EventBridge rules to pick up alarms using wildcard
-  queue_age_alarm_name_suffix = var.queue_age_alarm_name_suffix != null ? "_${var.queue_age_alarm_name_suffix}" : ""
+  queue_age_alarm_name_suffix     = var.queue_age_alarm_name_suffix != null ? "_${var.queue_age_alarm_name_suffix}" : ""
   dlq_not_empty_alarm_name_suffix = var.dlq_not_empty_alarm_name_suffix != null ? "_${var.dlq_not_empty_alarm_name_suffix}" : ""
+
+  enable_dlq_not_empty_alarm = var.enable_dlq_not_empty_alarm || local.dlq_alarm_action_arns != []
+  enable_queue_age_alarm     = var.enable_queue_age_alarm && var.main_q_age_alarm_action_arns != []
 }
 
-
 resource "aws_cloudwatch_metric_alarm" "dlq_not_empty" {
-  count = local.dlq_alarm_topic_arn != null ? 1 : 0
+  count = local.enable_dlq_not_empty_alarm ? 1 : 0
 
   alarm_name          = "${aws_sqs_queue.dlq.name}_not_empty"
   comparison_operator = "GreaterThanThreshold"
@@ -26,11 +28,11 @@ resource "aws_cloudwatch_metric_alarm" "dlq_not_empty" {
     QueueName = aws_sqs_queue.dlq.name
   }
 
-  alarm_actions = [local.dlq_alarm_topic_arn]
+  alarm_actions = local.dlq_alarm_action_arns
 }
 
 resource "aws_cloudwatch_metric_alarm" "queue_age" {
-  count = var.main_q_age_alarm_topic_arn != null ? 1 : 0
+  count = local.enable_queue_age_alarm ? 1 : 0
 
   alarm_name          = "${aws_sqs_queue.q.name}_age${local.queue_age_alarm_name_suffix}"
   comparison_operator = "GreaterThanThreshold"
@@ -45,5 +47,5 @@ resource "aws_cloudwatch_metric_alarm" "queue_age" {
     QueueName = aws_sqs_queue.q.name
   }
 
-  alarm_actions = [var.main_q_age_alarm_topic_arn]
+  alarm_actions = var.main_q_age_alarm_action_arns
 }

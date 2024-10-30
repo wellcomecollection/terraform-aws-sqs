@@ -6,10 +6,12 @@ This is useful for monitoring the health of the queue and ensuring that messages
 
 Adds the variables:
 
-- `dlq_alarm_topic_arn` - The ARN of the SNS topic to send DLQ alarm notifications to
-- `main_q_age_alarm_topic_arn` - The ARN of the SNS topic to send main queue age alarm notifications to
+- `dlq_alarm_action_arns` - The ARNs of the resources to send DLQ alarm notifications to
+- `main_q_age_alarm_action_arns` - The ARN of the resources to send main queue age alarm notifications to
 - `max_age_in_hours` - The maximum age of a message in the main queue before the alarm triggers
 - `queue_age_alarm_name_suffix` - The suffix to append to the age alarm name, used to allow EventBridge to filter on the alarm name
 - `dlq_not_empty_alarm_name_suffix` - The suffix to append to the dlq not empty alarm name, used to allow EventBridge to filter on the alarm name
+- `enable_dlq_not_empty_alarm` - Whether to enable the DLQ not empty alarm (default: `false`), overridden if `dlq_alarm_action_arns` is not empty
+- `enable_main_q_age_alarm` - Whether to enable the main queue age alarm (default: `false`), overridden if `main_q_age_alarm_action_arns` is not empty
 
-We deprecate the `alarm_topic_arn` variable in favour of the new `dlq_alarm_topic_arn` and `main_q_age_alarm_topic_arn` variables.
+We deprecate the `alarm_topic_arn` variable in favour of the new `dlq_alarm_action_arns` and `main_q_age_alarm_action_arns` variables.
