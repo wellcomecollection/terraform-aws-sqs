@@ -14,7 +14,7 @@ locals {
 }
 
 resource "aws_cloudwatch_metric_alarm" "dlq_not_empty" {
-  count = local.enable_dlq_not_empty_alarm ? 1 : 0
+  count = local.enable_dlq_not_empty_alarm == true ? 1 : 0
 
   alarm_name          = "${aws_sqs_queue.dlq.name}_not_empty"
   comparison_operator = "GreaterThanThreshold"
@@ -33,7 +33,7 @@ resource "aws_cloudwatch_metric_alarm" "dlq_not_empty" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "queue_age" {
-  count = local.enable_queue_age_alarm ? 1 : 0
+  count = local.enable_queue_age_alarm == true ? 1 : 0
 
   alarm_name          = "${aws_sqs_queue.q.name}_age${local.queue_age_alarm_name_suffix}"
   comparison_operator = "GreaterThanThreshold"
