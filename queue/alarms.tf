@@ -2,7 +2,8 @@ locals {
   max_age_in_seconds = var.max_age_in_hours * 3600
 
   # Allows for deprecation of alarm_topic_arn in favor of dlq_alarm_topic_arn
-  dlq_alarm_action_arns = var.dlq_alarm_action_arns != [] ? var.dlq_alarm_action_arns : [var.alarm_topic_arn]
+  alarm_topic_arn_safe = var.alarm_topic_arn != null ? [var.alarm_topic_arn] : []
+  dlq_alarm_action_arns = var.dlq_alarm_action_arns != [] ? var.dlq_alarm_action_arns : local.alarm_topic_arn_safe
 
   # Name suffix allows for EventBridge rules to pick up alarms using wildcard
   queue_age_alarm_name_suffix     = var.queue_age_alarm_name_suffix != null ? "_${var.queue_age_alarm_name_suffix}" : ""
