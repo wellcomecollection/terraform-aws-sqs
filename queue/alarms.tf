@@ -10,7 +10,7 @@ locals {
   dlq_not_empty_alarm_name_suffix = var.dlq_not_empty_alarm_name_suffix != null ? "_${var.dlq_not_empty_alarm_name_suffix}" : ""
 
   enable_dlq_not_empty_alarm = var.enable_dlq_not_empty_alarm || local.dlq_alarm_action_arns != []
-  enable_queue_age_alarm     = var.enable_queue_age_alarm && var.main_q_age_alarm_action_arns != []
+  enable_queue_age_alarm     = var.enable_queue_age_alarm || var.main_q_age_alarm_action_arns != []
 }
 
 resource "aws_cloudwatch_metric_alarm" "dlq_not_empty" {
