@@ -68,16 +68,6 @@ variable "max_age_in_hours" {
   default     = 6
 }
 
-variable "queue_age_alarm_name_suffix" {
-  description = "Suffix to append to the queue name for the age alarm"
-  default     = null
-}
-
-variable "dlq_not_empty_alarm_name_suffix" {
-  description = "Suffix to append to the DLQ name for the not empty alarm"
-  default     = null
-}
-
 variable "fifo_queue" {
   description = "Boolean designating a FIFO queue"
   default     = false
