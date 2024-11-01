@@ -43,7 +43,7 @@ variable "alarm_topic_arn" {
 }
 
 variable "enable_dlq_not_empty_alarm" {
-  description = "DEPRECATED, use dlq_alarm_topic_arn: Enable alarm for DLQ not being empty"
+  description = "Enable alarm for DLQs not being empty"
   default     = false
 }
 
@@ -53,12 +53,12 @@ variable "enable_queue_age_alarm" {
 }
 
 variable "dlq_alarm_action_arns" {
-  description = "ARNs for the topics where to send notification for DLQs not being empty. If null, no alarm will be created."
+  description = "ARNs for the topics where to send notification for DLQs not being empty, if not empty overrides alarm_topic_arn."
   default     = []
 }
 
 variable "main_q_age_alarm_action_arns" {
-  description = "ARN for the topics where to send notification for messages exceeding max_age_in_hours If null, no alarm will be created."
+  description = "ARN for the topics where to send notification for messages exceeding max_age_in_hours, if not empty overrides enable_queue_age_alarm."
   default     = []
 }
 
