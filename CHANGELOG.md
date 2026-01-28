@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.5.1 - 2026-01-28
+
+The AWS provider has deprecated aws_region.name in favour of using aws_region.region
+
+See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region#argument-reference
+
+This change updates the module to use aws_region.region instead, silencing the deprecation warnings
+
 ## v1.5.0 - 2024-11-01
 
 This change adds a main queue alarm that triggers when the main queue has messages older than a certain age. 
