@@ -21,7 +21,7 @@ jobs:
       has-release: ${{ steps.check-for-release-file.outputs.has-release }}
     needs: autoformat
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Check for RELEASE.md file
         id: check-for-release-file
         run: |
@@ -40,7 +40,7 @@ jobs:
     if: needs.check-for-release-file.outputs.has-release == 'true'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       
       - name: Update CHANGELOG.md and version
         id: create-release
@@ -54,7 +54,7 @@ jobs:
 
       - name: Generate a token
         id: generate-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v3
         with:
           app-id: 129326 # App ID of the Wellcome Collection app
           private-key: ${{ secrets.WELLCOME_COLLECTION_APP_PRIVATE_KEY }}
