@@ -31,3 +31,9 @@ variable "cooldown_period" {
     error_message = "Cooldown period should be either 1 minute or 15 minutes."
   }
 }
+
+variable "alarm_tags" {
+  description = "Extra tags for the scaling alarms, which are always tagged purpose = autoscaling."
+  type        = map(string)
+  default     = {}
+}
