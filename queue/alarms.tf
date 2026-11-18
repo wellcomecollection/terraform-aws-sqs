@@ -17,7 +17,7 @@ locals {
     var.alarm_repository == null ? {} : { "github.com/project-slug" = var.alarm_repository },
   )
 
-  dlq_alarm_description_base = "Alarm if the DLQ is not empty"
+  dlq_alarm_description_base = coalesce(var.dlq_alarm_description, "Alarm if the DLQ is not empty")
   age_alarm_description_base = "Message age exceeds ${var.max_age_in_hours} hours"
 
   dlq_alarm_description = var.alarm_component == null ? local.dlq_alarm_description_base : "[component=${var.alarm_component} severity=${var.dlq_alarm_severity}] ${local.dlq_alarm_description_base}"

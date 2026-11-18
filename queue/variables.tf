@@ -122,3 +122,9 @@ variable "alarm_tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "dlq_alarm_description" {
+  type        = string
+  default     = null
+  description = "Description for the DLQ alarm, for example why it has no action"
+}
