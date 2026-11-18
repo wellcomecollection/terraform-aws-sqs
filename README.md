@@ -14,6 +14,12 @@ That includes:
 
 You can also use the `autoscaling` module to trigger actions based on the size of the queue.
 
+## Alarm tags
+
+Set `alarm_component` to the Backplane Component name from the repository's `manifest.yml` and `alarm_repository` to `owner/name`. The alarms are then tagged `backplane:component`, `github.com/project-slug` and `severity`, and their description starts with `[component=NAME severity=LEVEL]`, which the Slack forwarders read. `dlq_alarm_severity` defaults to medium and `age_alarm_severity` to low. `dlq_alarm_description` replaces the DLQ alarm text, for example to say why it has no action. See the [alert routing ADR](https://github.com/wellcomecollection/docs/blob/main/adr/alert_routing.md).
+
+The age alarm is only created when `main_q_age_alarm_action_arns` is set, and the `autoscaling` module skips its alarms when it has no scaling actions, because an alarm with no action tells nobody.
+
 
 ## Usage
 

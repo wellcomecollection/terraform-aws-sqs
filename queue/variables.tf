@@ -48,7 +48,7 @@ variable "enable_dlq_not_empty_alarm" {
 }
 
 variable "enable_queue_age_alarm" {
-  description = "Enable alarm for messages exceeding max_age_in_hours"
+  description = "DEPRECATED, has no effect: the age alarm is created when main_q_age_alarm_action_arns is not empty, because an alarm with no action tells nobody."
   default     = false
 }
 
@@ -58,7 +58,7 @@ variable "dlq_alarm_action_arns" {
 }
 
 variable "main_q_age_alarm_action_arns" {
-  description = "ARN for the topics where to send notification for messages exceeding max_age_in_hours, if not empty overrides enable_queue_age_alarm."
+  description = "ARNs for the topics where to send notification for messages exceeding max_age_in_hours. The age alarm is only created when this is not empty."
   default     = []
 }
 
@@ -76,4 +76,55 @@ variable "fifo_queue" {
 variable "content_based_deduplication" {
   description = "Enables content-based deduplication for FIFO queues"
   default     = false
+}
+
+variable "alarm_component" {
+  description = "Name of the Backplane Component the alarms belong to (metadata.name in the repository's manifest.yml). Sets the backplane:component tag and the description prefix."
+  type        = string
+  default     = null
+}
+
+variable "alarm_repository" {
+  description = "Owning repository as owner/name, for the github.com/project-slug tag."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.alarm_repository == null || can(regex("^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$", var.alarm_repository))
+    error_message = "alarm_repository must look like owner/name."
+  }
+}
+
+variable "dlq_alarm_severity" {
+  description = "Severity of the DLQ alarm: high, medium or low."
+  type        = string
+  default     = "medium"
+
+  validation {
+    condition     = contains(["high", "medium", "low"], var.dlq_alarm_severity)
+    error_message = "dlq_alarm_severity must be high, medium or low."
+  }
+}
+
+variable "age_alarm_severity" {
+  description = "Severity of the queue age alarm: high, medium or low."
+  type        = string
+  default     = "low"
+
+  validation {
+    condition     = contains(["high", "medium", "low"], var.age_alarm_severity)
+    error_message = "age_alarm_severity must be high, medium or low."
+  }
+}
+
+variable "alarm_tags" {
+  description = "Extra tags for the alarms."
+  type        = map(string)
+  default     = {}
+}
+
+variable "dlq_alarm_description" {
+  type        = string
+  default     = null
+  description = "Description for the DLQ alarm, for example why it has no action"
 }

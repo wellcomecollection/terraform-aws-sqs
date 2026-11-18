@@ -1,4 +1,23 @@
+locals {
+  # Scaling alarms with no scaling policy do nothing, so the pair is skipped
+  create_scaling_alarms = length(var.queue_high_actions) + length(var.queue_low_actions) > 0
+
+  scaling_alarm_tags = merge(var.alarm_tags, { purpose = "autoscaling" })
+}
+
+moved {
+  from = aws_cloudwatch_metric_alarm.queue_high
+  to   = aws_cloudwatch_metric_alarm.queue_high[0]
+}
+
+moved {
+  from = aws_cloudwatch_metric_alarm.queue_low
+  to   = aws_cloudwatch_metric_alarm.queue_low[0]
+}
+
 resource "aws_cloudwatch_metric_alarm" "queue_high" {
+  count = local.create_scaling_alarms ? 1 : 0
+
   alarm_name          = "${var.queue_name}_high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
@@ -18,6 +37,8 @@ resource "aws_cloudwatch_metric_alarm" "queue_high" {
   }
 
   insufficient_data_actions = []
+
+  tags = local.scaling_alarm_tags
 }
 
 locals {
@@ -30,6 +51,8 @@ locals {
 }
 
 resource "aws_cloudwatch_metric_alarm" "queue_low" {
+  count = local.create_scaling_alarms ? 1 : 0
+
   alarm_name          = "${var.queue_name}_low"
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = 1
@@ -39,6 +62,8 @@ resource "aws_cloudwatch_metric_alarm" "queue_low" {
   alarm_actions = var.queue_low_actions
 
   insufficient_data_actions = []
+
+  tags = local.scaling_alarm_tags
 
   metric_query {
     id          = "e1"
